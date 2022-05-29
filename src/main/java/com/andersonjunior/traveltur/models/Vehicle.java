@@ -13,29 +13,35 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import com.andersonjunior.traveltur.enums.VehicleType;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "tb_passengers")
+@Table(name = "tb_vehicles")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Passenger implements Serializable {
+public class Vehicle implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ApiModelProperty(value = "CPF não pode ser duplicado")
+    @ApiModelProperty(value = "MOTONETA, MOTOCICLETA, TRICICLO, QUADRICICLO, AUTOMOVEL, MICROONIBUS, ONIBUS, BONDE, REBOQUE, CHARRETE")
+    private VehicleType type;
+
+    @ApiModelProperty(value = "Placa não pode ser duplicada")
     @Column(unique = true)
-    private String cpf;
+    private String licensePlate;
 
-    private String fullname;
-
-    private LocalDateTime birthDate;
+    private String description;
+    private String brand;
+    private String model;
+    private Integer year;
 
     @ApiModelProperty(value = "Usuário que criou o registro")
     @OneToOne
