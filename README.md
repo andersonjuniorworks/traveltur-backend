@@ -2,7 +2,7 @@
 
 O TravelTur é um sistema simples e intuitivo que tem como objetivo realizar a gestão de frotas e viagens para pequenas empresas do ramo de turismo.
 
-##Tecnologias
+## Tecnologias
 
 - Spring Boot 2.6 (Snapshot)
 - Java 11
