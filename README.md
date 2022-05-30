@@ -16,6 +16,6 @@ O TravelTur é um sistema simples e intuitivo que tem como objetivo realizar a g
 
 - Spring Boot 2.6 (Snapshot)
 - Java 11
-- PostgreSQL 14
+- PostgreSQL 12
 - H2 Database (Profile de testes e desenvolvimento)
-- Swagger
+- Swagger 2.9.2
