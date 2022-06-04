@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 import com.andersonjunior.traveltur.enums.Profile;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,11 +29,13 @@ public class User implements Serializable {
 
     private String fullname;
 
+    @ApiModelProperty(value = "Email não pode ser duplicado")
     @Column(unique = true)
     private String email;
 
     private String password;
 
+    @ApiModelProperty(value = "ADMINISTRADOR, GERENTE, OPERADOR")
     private Profile profile;
 
 }

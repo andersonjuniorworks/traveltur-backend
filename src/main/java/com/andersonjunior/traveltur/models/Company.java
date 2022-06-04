@@ -19,23 +19,30 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "tb_passengers")
+@Table(name = "tb_companies")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Passenger implements Serializable {
+public class Company implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ApiModelProperty(value = "CPF não pode ser duplicado")
+    @ApiModelProperty(value = "Documento não pode ser duplicado")
     @Column(unique = true)
-    private String cpf;
+    private String cpfCnpj;
 
-    private String fullname;
-
-    private LocalDateTime birthDate;
+    private String businessName;
+    private String zipcode;
+    private String address;
+    private String number;
+    private String complement;
+    private String neighborhood;
+    private String state;
+    private String city;
+    private String phoneNumber;
+    private String email;
 
     @ApiModelProperty(value = "Usuário que criou o registro")
     @OneToOne
