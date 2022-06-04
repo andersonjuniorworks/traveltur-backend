@@ -43,8 +43,10 @@ public class PassengerList implements Serializable {
     @OneToOne
     private User createdBy;
 
+    @ApiModelProperty(value = "Data da criação do registro")
     private LocalDateTime createdAt;
 
+    @ApiModelProperty(value = "Data da última atualização do registro")
     private LocalDateTime updateAt;
 
     @PrePersist
