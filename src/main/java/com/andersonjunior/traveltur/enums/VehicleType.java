@@ -1,7 +1,6 @@
 package com.andersonjunior.traveltur.enums;
 
 public enum VehicleType {
-
     MOTONETA,
     MOTOCICLETA,
     TRICICLO,
@@ -12,5 +11,4 @@ public enum VehicleType {
     BONDE,
     REBOQUE,
     CHARRETE;
-
 }
