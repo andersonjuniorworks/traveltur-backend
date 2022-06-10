@@ -7,6 +7,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
 import com.andersonjunior.traveltur.enums.Profile;
+import com.andersonjunior.traveltur.enums.Status;
 import com.andersonjunior.traveltur.models.User;
 
 import lombok.Data;
@@ -19,21 +20,13 @@ public class UserDto implements Serializable {
     private Long id;
     private String fullname;
     private String email;
+    private String password;
     private Profile profile;
+    private Status status;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updateAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updateAt = LocalDateTime.now();
-    }
 
     public UserDto() {
         super();
@@ -43,7 +36,20 @@ public class UserDto implements Serializable {
         super();
         this.id = user.getId();
         this.fullname = user.getFullname();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
         this.profile = user.getProfile();
+        this.status = user.getStatus();
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updateAt = LocalDateTime.now();
     }
 
 }
