@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import com.andersonjunior.traveltur.enums.Profile;
 import com.andersonjunior.traveltur.enums.Status;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,5 +46,15 @@ public class User implements Serializable {
     private LocalDateTime createdAt;
 
     private LocalDateTime updateAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updateAt = LocalDateTime.now();
+    }
 
 }

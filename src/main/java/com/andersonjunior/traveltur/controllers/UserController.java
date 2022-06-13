@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @Api(tags = "Usuário", description = "Operações pertecentes aos usuários")
@@ -39,9 +39,10 @@ public class UserController {
 
     @ApiOperation(value = "Retorna um usuário através do ID")
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> findById(@PathVariable Long id) {
-        User obj = userService.findById(id);
-        return ResponseEntity.ok().body(obj);
+    public ResponseEntity<UserDto> findById(@PathVariable Long id) {
+        User user = userService.findById(id);
+        UserDto userDto = new UserDto(user);
+        return ResponseEntity.ok().body(userDto);
     }
 
     @ApiOperation(value = "Retorna todos os usuários")

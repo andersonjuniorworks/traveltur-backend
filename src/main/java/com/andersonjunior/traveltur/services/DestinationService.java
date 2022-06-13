@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.andersonjunior.traveltur.dtos.DestinationDto;
 import com.andersonjunior.traveltur.models.Destination;
 import com.andersonjunior.traveltur.repositories.DestinationRepository;
 import com.andersonjunior.traveltur.services.exceptions.DataIntegrityException;
@@ -33,6 +34,10 @@ public class DestinationService {
         return destination.orElseThrow(() -> new ObjectNotFoundException("Registro não encontrado na base de dados"));
     }
 
+    public List<Destination> findByName(String name) {
+        return destinationRepository.findByNameContainingIgnoreCase(name);
+    }
+
     public Long count() {
         Long count = destinationRepository.count();
         return count;
@@ -59,6 +64,11 @@ public class DestinationService {
         } catch (DataIntegrityException e) {
             throw new DataIntegrityException("Não é possível excluir esse destino!");
         }
+    }
+
+    public Destination fromDTO(DestinationDto destinationDto) {
+        return new Destination(destinationDto.getId(), destinationDto.getName(), destinationDto.getCreatedBy(),
+                destinationDto.getCreatedAt(), destinationDto.getUpdateAt());
     }
 
     private void updateData(Destination newDestination, Destination destination) {
