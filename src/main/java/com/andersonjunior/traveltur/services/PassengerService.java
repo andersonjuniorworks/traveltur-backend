@@ -5,9 +5,10 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.andersonjunior.traveltur.dtos.PassengerDto;
+import com.andersonjunior.traveltur.enums.Status;
 import com.andersonjunior.traveltur.models.Passenger;
 import com.andersonjunior.traveltur.repositories.PassengerRepository;
-import com.andersonjunior.traveltur.services.exceptions.DataIntegrityException;
 import com.andersonjunior.traveltur.services.exceptions.ObjectNotFoundException;
 
 import org.springframework.data.domain.PageRequest;
@@ -28,9 +29,22 @@ public class PassengerService {
         return passengerRepository.findAll(pageable).getContent();
     }
 
+    public List<Passenger> findByStatus(Status status, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return passengerRepository.findByStatus(status, pageable);
+    }
+
     public Passenger findById(Long id) {
         Optional<Passenger> passenger = passengerRepository.findById(id);
         return passenger.orElseThrow(() -> new ObjectNotFoundException("Registro não encontrado na base de dados"));
+    }
+
+    public List<Passenger> findByDocument(String documentNumber, Status status) {
+        return passengerRepository.findByDocumentNumberAndStatus(documentNumber, status);
+    }
+
+    public List<Passenger> findByFullname(String fullname, Status status) {
+        return passengerRepository.findByFullnameContainingIgnoreCaseAndStatus(fullname, status);
     }
 
     public Long count() {
@@ -52,19 +66,25 @@ public class PassengerService {
     }
 
     @Transactional
-    public void delete(Long id) {
-        findById(id);
-        try {
-            passengerRepository.deleteById(id);
-        } catch (DataIntegrityException e) {
-            throw new DataIntegrityException("Não é possível excluir essa viagem!");
-        }
+    public Passenger delete(Long id) {
+        Passenger newPassenger = findById(id);
+        newPassenger.setStatus(Status.INATIVO);
+        return passengerRepository.save(newPassenger);
+    }
+
+    public Passenger fromDTO(PassengerDto passengerDto) {
+        return new Passenger(passengerDto.getId(), passengerDto.getDocumentType(), passengerDto.getDocumentNumber(),
+                passengerDto.getFullname(), passengerDto.getBirthDate(), passengerDto.getStatus(),
+                passengerDto.getCreatedBy(),
+                passengerDto.getCreatedAt(), passengerDto.getUpdateAt());
     }
 
     private void updateData(Passenger newPassenger, Passenger passenger) {
-        newPassenger.setCpf(passenger.getCpf());
+        newPassenger.setDocumentType(passenger.getDocumentType());
+        newPassenger.setDocumentNumber(passenger.getDocumentNumber());
         newPassenger.setFullname(passenger.getFullname());
         newPassenger.setBirthDate(passenger.getBirthDate());
+        newPassenger.setStatus(passenger.getStatus());
     }
 
 }

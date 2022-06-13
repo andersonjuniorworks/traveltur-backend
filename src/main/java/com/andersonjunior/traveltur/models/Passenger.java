@@ -13,7 +13,9 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
-import io.swagger.annotations.ApiModelProperty;
+import com.andersonjunior.traveltur.enums.DocumentType;
+import com.andersonjunior.traveltur.enums.Status;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,19 +27,23 @@ import lombok.NoArgsConstructor;
 @Data
 public class Passenger implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ApiModelProperty(value = "CPF não pode ser duplicado")
+    private DocumentType documentType;
+
     @Column(unique = true)
-    private String cpf;
+    private String documentNumber;
 
     private String fullname;
 
     private LocalDateTime birthDate;
 
-    @ApiModelProperty(value = "Usuário que criou o registro")
+    private Status status;
+
     @OneToOne
     private User createdBy;
 
