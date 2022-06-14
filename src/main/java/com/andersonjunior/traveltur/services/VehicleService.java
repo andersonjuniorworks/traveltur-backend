@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.andersonjunior.traveltur.dtos.VehicleDto;
 import com.andersonjunior.traveltur.models.Vehicle;
 import com.andersonjunior.traveltur.repositories.VehicleRepository;
 import com.andersonjunior.traveltur.services.exceptions.DataIntegrityException;
@@ -59,6 +60,13 @@ public class VehicleService {
         } catch (DataIntegrityException e) {
             throw new DataIntegrityException("Não é possível excluir este veículo!");
         }
+    }
+
+    public Vehicle fromDTO(VehicleDto vehicleDto) {
+        return new Vehicle(vehicleDto.getId(), vehicleDto.getType(), vehicleDto.getLicensePlate(),
+                vehicleDto.getDescription(), vehicleDto.getBrand(), vehicleDto.getModel(), vehicleDto.getYear(),
+                vehicleDto.getStatus(),
+                vehicleDto.getCreatedBy(), null, null);
     }
 
     private void updateData(Vehicle newVehicle, Vehicle vehicle) {

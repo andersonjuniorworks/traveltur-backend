@@ -73,9 +73,9 @@ public class UserService {
     }
 
     public User fromDTO(UserDto userDto) {
-        return new User(userDto.getId(), userDto.getFullname(), userDto.getEmail(), userDto.getPassword(),
+        return new User(userDto.getId(), userDto.getFullname(), userDto.getEmail(), null,
                 userDto.getProfile(), userDto.getStatus(),
-                userDto.getCreatedAt(), userDto.getUpdateAt());
+                null, null);
     }
 
     private void updateData(User newUser, User user) {

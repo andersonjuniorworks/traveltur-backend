@@ -30,6 +30,9 @@ public class Travel implements Serializable {
     @OneToOne
     private Destination destination;
 
+    @OneToOne
+    private Vehicle vehicle;
+
     private LocalDateTime departureDate;
 
     private String departureTime;

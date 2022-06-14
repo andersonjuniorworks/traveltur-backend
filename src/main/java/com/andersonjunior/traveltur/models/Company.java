@@ -13,7 +13,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,7 +28,6 @@ public class Company implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ApiModelProperty(value = "Documento não pode ser duplicado")
     @Column(unique = true)
     private String cpfCnpj;
 
@@ -44,7 +42,6 @@ public class Company implements Serializable {
     private String phoneNumber;
     private String email;
 
-    @ApiModelProperty(value = "Usuário que criou o registro")
     @OneToOne
     private User createdBy;
 
