@@ -27,7 +27,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@Api(tags = "Passageiro", description = "Operações pertecentes aos passageiros")
+@Api(tags = "Passageiros", description = "Operações pertecentes aos passageiros")
 @RequestMapping(value = "/api/passengers")
 public class PassengerController {
 

@@ -34,6 +34,11 @@ public class TravelService {
         return travel.orElseThrow(() -> new ObjectNotFoundException("Registro não encontrado na base de dados"));
     }
 
+    public List<Travel> findByDestinationName(String destinationName, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return travelRepository.findByDestination(destinationName, pageable);
+    }
+
     public Long count() {
         Long count = travelRepository.count();
         return count;
@@ -63,7 +68,7 @@ public class TravelService {
     }
 
     public Travel fromDTO(TravelDto travelDto) {
-        return new Travel(travelDto.getId(), travelDto.getDestination(), travelDto.getVehicle(), travelDto.getDepartureDate(), travelDto.getDepartureTime(), travelDto.getReturnDate(), travelDto.getReturnTime(), travelDto.getCreatedBy(), travelDto.getCreatedAt(), travelDto.getUpdatedAt());
+        return new Travel(travelDto.getId(), travelDto.getDestination(), travelDto.getVehicle(), travelDto.getDepartureDate(), travelDto.getDepartureTime(), travelDto.getReturnDate(), travelDto.getReturnTime(), travelDto.getStatus(), travelDto.getCreatedBy(), travelDto.getCreatedAt(), travelDto.getUpdatedAt());
     }
 
     private void updateData(Travel newTravel, Travel travel) {
@@ -72,6 +77,7 @@ public class TravelService {
         newTravel.setDepartureTime(travel.getDepartureTime());
         newTravel.setReturnDate(travel.getDepartureDate());
         newTravel.setReturnTime(travel.getReturnTime());
+        newTravel.setStatus(travel.getStatus());
         newTravel.setCreatedBy(travel.getCreatedBy());
         newTravel.setCreatedAt(travel.getCreatedAt());
         newTravel.setUpdateAt(travel.getUpdateAt());

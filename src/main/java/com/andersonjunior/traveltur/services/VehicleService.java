@@ -6,9 +6,9 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import com.andersonjunior.traveltur.dtos.VehicleDto;
+import com.andersonjunior.traveltur.enums.Status;
 import com.andersonjunior.traveltur.models.Vehicle;
 import com.andersonjunior.traveltur.repositories.VehicleRepository;
-import com.andersonjunior.traveltur.services.exceptions.DataIntegrityException;
 import com.andersonjunior.traveltur.services.exceptions.ObjectNotFoundException;
 
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +34,15 @@ public class VehicleService {
         return vehicle.orElseThrow(() -> new ObjectNotFoundException("Registro não encontrado na base de dados"));
     }
 
+    public List<Vehicle> findByStatus(Status status, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return vehicleRepository.findByStatus(status, pageable);
+    }
+
+    public List<Vehicle> findByLicensePlate(String licensePlate, Status status) {
+        return vehicleRepository.findByLicensePlateAndStatus(licensePlate, status);
+    }
+
     public Long count() {
         Long count = vehicleRepository.count();
         return count;
@@ -53,20 +62,17 @@ public class VehicleService {
     }
 
     @Transactional
-    public void delete(Long id) {
-        findById(id);
-        try {
-            vehicleRepository.deleteById(id);
-        } catch (DataIntegrityException e) {
-            throw new DataIntegrityException("Não é possível excluir este veículo!");
-        }
+    public Vehicle delete(Long id) {
+        Vehicle newVehicle = findById(id);
+        newVehicle.setStatus(Status.INATIVO);
+        return vehicleRepository.save(newVehicle);
     }
 
     public Vehicle fromDTO(VehicleDto vehicleDto) {
         return new Vehicle(vehicleDto.getId(), vehicleDto.getType(), vehicleDto.getLicensePlate(),
                 vehicleDto.getDescription(), vehicleDto.getBrand(), vehicleDto.getModel(), vehicleDto.getYear(),
                 vehicleDto.getStatus(),
-                vehicleDto.getCreatedBy(), null, null);
+                vehicleDto.getCreatedBy(), vehicleDto.getCreatedAt(), vehicleDto.getUpdatedAt());
     }
 
     private void updateData(Vehicle newVehicle, Vehicle vehicle) {
@@ -75,6 +81,9 @@ public class VehicleService {
         newVehicle.setModel(vehicle.getModel());
         newVehicle.setBrand(vehicle.getBrand());
         newVehicle.setYear(vehicle.getYear());
+        newVehicle.setCreatedBy(vehicle.getCreatedBy());
+        newVehicle.setCreatedAt(vehicle.getCreatedAt());
+        newVehicle.setUpdateAt(vehicle.getUpdateAt());
     }
 
 }

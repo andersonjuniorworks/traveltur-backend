@@ -3,6 +3,7 @@ package com.andersonjunior.traveltur.dtos;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.andersonjunior.traveltur.enums.Status;
 import com.andersonjunior.traveltur.models.Destination;
 import com.andersonjunior.traveltur.models.Travel;
 import com.andersonjunior.traveltur.models.User;
@@ -20,6 +21,7 @@ public class TravelDto implements Serializable {
     private String departureTime;
     private LocalDateTime returnDate;
     private String returnTime;
+    private Status status;
     private User createdBy;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
