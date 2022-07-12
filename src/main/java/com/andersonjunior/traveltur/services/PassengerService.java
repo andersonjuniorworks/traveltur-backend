@@ -76,7 +76,7 @@ public class PassengerService {
         return new Passenger(passengerDto.getId(), passengerDto.getDocumentType(), passengerDto.getDocumentNumber(),
                 passengerDto.getFullname(), passengerDto.getBirthDate(), passengerDto.getStatus(),
                 passengerDto.getCreatedBy(),
-                passengerDto.getCreatedAt(), passengerDto.getUpdateAt());
+                null, null);
     }
 
     private void updateData(Passenger newPassenger, Passenger passenger) {

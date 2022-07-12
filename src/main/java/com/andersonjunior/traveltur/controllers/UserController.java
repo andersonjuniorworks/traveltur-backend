@@ -88,8 +88,7 @@ public class UserController {
 
     @ApiOperation(value = "Adiciona um novo usuário")
     @PostMapping
-    public ResponseEntity<String> insert(@Valid @RequestBody UserDto userDto) {
-        User user = userService.fromDTO(userDto);
+    public ResponseEntity<String> insert(@Valid @RequestBody User user) {
         user = userService.insert(user);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(user.getId()).toUri();

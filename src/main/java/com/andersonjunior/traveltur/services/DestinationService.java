@@ -67,12 +67,14 @@ public class DestinationService {
     }
 
     public Destination fromDTO(DestinationDto destinationDto) {
-        return new Destination(destinationDto.getId(), destinationDto.getName(), destinationDto.getCreatedBy(),
-                destinationDto.getCreatedAt(), destinationDto.getUpdateAt());
+        return new Destination(destinationDto.getId(), destinationDto.getName(), destinationDto.getState(),
+                destinationDto.getCity(), null, null, null);
     }
 
     private void updateData(Destination newDestination, Destination destination) {
         newDestination.setName(destination.getName());
+        newDestination.setState(destination.getState());
+        newDestination.setCity(destination.getCity());
     }
 
 }

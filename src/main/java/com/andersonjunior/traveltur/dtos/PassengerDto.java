@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.validation.constraints.NotEmpty;
 
 import com.andersonjunior.traveltur.enums.DocumentType;
 import com.andersonjunior.traveltur.enums.Status;
@@ -24,12 +23,15 @@ public class PassengerDto implements Serializable {
     private Long id;
 
     @ApiModelProperty(notes = "Tipo do documento", required = true)
+    @NotEmpty
     private DocumentType documentType;
 
     @ApiModelProperty(notes = "Nº do documento", required = true)
+    @NotEmpty
     private String documentNumber;
 
     @ApiModelProperty(notes = "Nome completo", required = true)
+    @NotEmpty
     private String fullname;
 
     @ApiModelProperty(notes = "Data de nascimento", required = false)
@@ -41,12 +43,6 @@ public class PassengerDto implements Serializable {
     @ApiModelProperty(notes = "Usuário que criou o registro", required = true)
     @OneToOne
     private User createdBy;
-
-    @ApiModelProperty(notes = "Data de criação do registro", required = false)
-    private LocalDateTime createdAt;
-
-    @ApiModelProperty(notes = "Data da última atualização do registro", required = false)
-    private LocalDateTime updateAt;
 
     public PassengerDto() {
         super();
@@ -60,20 +56,6 @@ public class PassengerDto implements Serializable {
         this.fullname = passenger.getFullname();
         this.status = passenger.getStatus();
         this.createdBy = passenger.getCreatedBy();
-        this.createdAt = passenger.getCreatedAt();
-        this.updateAt = passenger.getUpdateAt();
-    }
-
-    @ApiModelProperty(notes = "Data de criação do registro", required = false)
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
-
-    @ApiModelProperty(notes = "Data da última atualização do registro", required = false)
-    @PreUpdate
-    protected void onUpdate() {
-        this.updateAt = LocalDateTime.now();
     }
 
 }

@@ -14,6 +14,7 @@ import javax.persistence.Table;
 
 import com.andersonjunior.traveltur.enums.Profile;
 import com.andersonjunior.traveltur.enums.Status;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,6 +38,7 @@ public class User implements Serializable {
     @Column(unique = true)
     private String email;
 
+    @JsonIgnore
     private String password;
 
     private Profile profile;

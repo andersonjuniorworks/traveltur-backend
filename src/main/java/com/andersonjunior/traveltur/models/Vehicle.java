@@ -13,9 +13,9 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import com.andersonjunior.traveltur.enums.Status;
 import com.andersonjunior.traveltur.enums.VehicleType;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,10 +31,8 @@ public class Vehicle implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ApiModelProperty(value = "MOTONETA, MOTOCICLETA, TRICICLO, QUADRICICLO, AUTOMOVEL, MICROONIBUS, ONIBUS, BONDE, REBOQUE, CHARRETE")
     private VehicleType type;
 
-    @ApiModelProperty(value = "Placa não pode ser duplicada")
     @Column(unique = true)
     private String licensePlate;
 
@@ -43,7 +41,8 @@ public class Vehicle implements Serializable {
     private String model;
     private Integer year;
 
-    @ApiModelProperty(value = "Usuário que criou o registro")
+    private Status status;
+
     @OneToOne
     private User createdBy;
 

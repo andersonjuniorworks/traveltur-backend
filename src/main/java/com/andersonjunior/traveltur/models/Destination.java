@@ -31,11 +31,14 @@ public class Destination implements Serializable {
 
     private String name;
 
+    private String state;
+
+    private String city;
+
     @OneToOne
     private User createdBy;
 
     private LocalDateTime createdAt;
-
     private LocalDateTime updateAt;
 
     @PrePersist
