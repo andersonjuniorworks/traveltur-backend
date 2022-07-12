@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.andersonjunior.traveltur.dtos.DestinationDto;
+import com.andersonjunior.traveltur.enums.Status;
 import com.andersonjunior.traveltur.models.Destination;
 import com.andersonjunior.traveltur.services.DestinationService;
 
@@ -25,7 +27,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@Api(tags = "Destino", description = "Operações pertecentes aos destinos")
+@Api(tags = "Destinos", description = "Operações pertecentes aos destinos")
 @RequestMapping(value = "/api/destinations")
 public class DestinationController {
 
@@ -54,10 +56,21 @@ public class DestinationController {
         return ResponseEntity.ok().body(destinationsDto);
     }
 
+    @ApiOperation(value = "Retorna todos os destinos através do status")
+    @GetMapping(value = "/status")
+    public ResponseEntity<List<DestinationDto>> findByStatus(
+            @RequestParam(name = "status", required = true, defaultValue = "ATIVO") Status status,
+            @RequestParam(name = "page", required = true, defaultValue = "0") Integer page,
+            @RequestParam(name = "size", required = true, defaultValue = "10") Integer size) {
+        List<Destination> destinations = destinationService.findByStatus(status, page, size);
+        List<DestinationDto> destinationsDto = destinations.stream().map(destination -> new DestinationDto(destination)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(destinationsDto);
+    }
+
     @ApiOperation(value = "Retorna uma lista de destinos através do nome")
     @GetMapping(value = "/name")
     public ResponseEntity<List<DestinationDto>> findByName(
-            @RequestParam(name = "fullname", required = true) String name) {
+            @RequestParam(name = "name", required = true) String name) {
         List<Destination> destinations = destinationService.findByName(name);
         List<DestinationDto> destinationsDto = destinations.stream().map(destination -> new DestinationDto(destination))
                 .collect(Collectors.toList());
@@ -80,6 +93,13 @@ public class DestinationController {
         Destination destination = destinationService.fromDTO(destinationDto);
         destinationService.update(destination);
         return ResponseEntity.ok().body("Destino atualizado com sucesso!");
+    }
+
+    @ApiOperation(value = "Exclui o destino selecionado")
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<String> delete(@Valid @PathVariable Long id) {
+        destinationService.delete(id);
+        return ResponseEntity.ok().body("Destino excluído com sucesso!");
     }
 
 }

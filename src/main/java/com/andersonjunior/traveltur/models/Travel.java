@@ -12,6 +12,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import com.andersonjunior.traveltur.enums.Status;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,6 +42,8 @@ public class Travel implements Serializable {
     private LocalDateTime returnDate;
 
     private String returnTime;
+
+    private Status status;
 
     @OneToOne
     private User createdBy;

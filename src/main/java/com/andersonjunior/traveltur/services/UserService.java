@@ -44,7 +44,7 @@ public class UserService {
     }
 
     public List<User> findByFullname(String fullname, Status status) {
-        return userRepository.findByFullnameContainingIgnoreCaseAndStatus(fullname, status);
+        return userRepository.findByFullnameContainsIgnoreCaseAndStatus(fullname, status);
     }
 
     public Long count() {

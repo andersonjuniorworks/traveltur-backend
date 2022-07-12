@@ -6,9 +6,9 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import com.andersonjunior.traveltur.dtos.DestinationDto;
+import com.andersonjunior.traveltur.enums.Status;
 import com.andersonjunior.traveltur.models.Destination;
 import com.andersonjunior.traveltur.repositories.DestinationRepository;
-import com.andersonjunior.traveltur.services.exceptions.DataIntegrityException;
 import com.andersonjunior.traveltur.services.exceptions.ObjectNotFoundException;
 
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +34,11 @@ public class DestinationService {
         return destination.orElseThrow(() -> new ObjectNotFoundException("Registro não encontrado na base de dados"));
     }
 
+    public List<Destination> findByStatus(Status status, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return destinationRepository.findByStatus(status, pageable);
+    }
+
     public List<Destination> findByName(String name) {
         return destinationRepository.findByNameContainingIgnoreCase(name);
     }
@@ -57,24 +62,25 @@ public class DestinationService {
     }
 
     @Transactional
-    public void delete(Long id) {
-        findById(id);
-        try {
-            destinationRepository.deleteById(id);
-        } catch (DataIntegrityException e) {
-            throw new DataIntegrityException("Não é possível excluir esse destino!");
-        }
+    public Destination delete(Long id) {
+        Destination newDestination = findById(id);
+        newDestination.setStatus(Status.INATIVO);
+        return destinationRepository.save(newDestination);
     }
 
     public Destination fromDTO(DestinationDto destinationDto) {
         return new Destination(destinationDto.getId(), destinationDto.getName(), destinationDto.getState(),
-                destinationDto.getCity(), null, null, null);
+                destinationDto.getCity(), destinationDto.getStatus(), destinationDto.getCreatedBy(),
+                destinationDto.getCreatedAt(), destinationDto.getUpdateAt());
     }
 
     private void updateData(Destination newDestination, Destination destination) {
         newDestination.setName(destination.getName());
         newDestination.setState(destination.getState());
         newDestination.setCity(destination.getCity());
+        newDestination.setCreatedBy(destination.getCreatedBy());
+        newDestination.setCreatedAt(destination.getCreatedAt());
+        newDestination.setUpdateAt(destination.getUpdateAt());
     }
 
 }

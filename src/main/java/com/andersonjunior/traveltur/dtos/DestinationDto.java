@@ -1,10 +1,12 @@
 package com.andersonjunior.traveltur.dtos;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 
+import com.andersonjunior.traveltur.enums.Status;
 import com.andersonjunior.traveltur.models.Destination;
 import com.andersonjunior.traveltur.models.User;
 
@@ -31,9 +33,18 @@ public class DestinationDto implements Serializable {
     @NotEmpty
     private String city;
 
+    @ApiModelProperty(notes = "Situação do resgistro", required = true)
+    private Status status;
+
     @ApiModelProperty(notes = "Usuário que criou o registro", required = true)
     @OneToOne
     private User createdBy;
+
+    @ApiModelProperty(notes = "Data de criação do registro", required = false)
+    private LocalDateTime createdAt;
+
+    @ApiModelProperty(notes = "Data de atualização do registro", required = false)
+    private LocalDateTime updateAt;
 
     public DestinationDto() {
         super();
@@ -46,6 +57,8 @@ public class DestinationDto implements Serializable {
         this.state = destination.getState();
         this.city = destination.getCity();
         this.createdBy = destination.getCreatedBy();
+        this.createdAt = destination.getCreatedAt();
+        this.updateAt = destination.getUpdateAt();
     }
 
 }

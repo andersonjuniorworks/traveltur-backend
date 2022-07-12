@@ -55,6 +55,17 @@ public class TravelController {
         return ResponseEntity.ok().body(travelsDto);
     }
 
+    @ApiOperation(value = "Retorna todas as viagens através do nome do destino")
+    @GetMapping(value = "/destination")
+    public ResponseEntity<List<TravelDto>> findByDestinationName(
+            @RequestParam(name = "name", required = true) String destinationName,
+            @RequestParam(name = "page", required = true, defaultValue = "0") Integer page,
+            @RequestParam(name = "size", required = true, defaultValue = "10") Integer size) {
+        List<Travel> travels = travelService.findByDestinationName(destinationName, page, size);
+        List<TravelDto> travelDtos = travels.stream().map(travel -> new TravelDto(travel)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(travelDtos);
+    }
+
     @ApiOperation(value = "Adiciona uma nova viagem")
     @PostMapping
     public ResponseEntity<String> insert(@Valid @RequestBody TravelDto TravelDto) {

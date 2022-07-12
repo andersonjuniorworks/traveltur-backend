@@ -23,7 +23,6 @@ public class PassengerDto implements Serializable {
     private Long id;
 
     @ApiModelProperty(notes = "Tipo do documento", required = true)
-    @NotEmpty
     private DocumentType documentType;
 
     @ApiModelProperty(notes = "Nº do documento", required = true)
@@ -43,6 +42,9 @@ public class PassengerDto implements Serializable {
     @ApiModelProperty(notes = "Usuário que criou o registro", required = true)
     @OneToOne
     private User createdBy;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updateAt;
 
     public PassengerDto() {
         super();

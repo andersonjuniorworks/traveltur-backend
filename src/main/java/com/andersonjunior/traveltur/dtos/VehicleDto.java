@@ -1,9 +1,9 @@
 package com.andersonjunior.traveltur.dtos;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotEmpty;
 
 import com.andersonjunior.traveltur.enums.Status;
 import com.andersonjunior.traveltur.enums.VehicleType;
@@ -38,12 +38,17 @@ public class VehicleDto implements Serializable {
     private Integer year;
 
     @ApiModelProperty(notes = "Situação do cadastro", required = true)
-    @NotEmpty
     private Status status;
 
     @ApiModelProperty(notes = "Usuário que cadastrou o registro")
     @OneToOne
     private User createdBy;
+
+    @ApiModelProperty(notes = "Data de criação do registro")
+    private LocalDateTime createdAt;
+
+    @ApiModelProperty(notes = "Data de atualização do registro")
+    private LocalDateTime updatedAt;
 
     public VehicleDto() {
         super();

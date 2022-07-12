@@ -27,7 +27,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@Api(tags = "Usuário", description = "Operações pertecentes aos usuários")
+@Api(tags = "Usuários", description = "Operações pertecentes aos usuários")
 @RequestMapping(value = "/api/users")
 public class UserController {
 
@@ -79,9 +79,9 @@ public class UserController {
     @ApiOperation(value = "Retorna uma lista de usuários através do nome")
     @GetMapping(value = "/name")
     public ResponseEntity<List<UserDto>> findByFullname(
-            @RequestParam(name = "fullname", required = true) String fullname,
+            @RequestParam(name = "name", required = true) String name,
             @RequestParam(name = "status", required = true, defaultValue = "ATIVO") Status status) {
-        List<User> users = userService.findByFullname(fullname, status);
+        List<User> users = userService.findByFullname(name, status);
         List<UserDto> usersDto = users.stream().map(user -> new UserDto(user)).collect(Collectors.toList());
         return ResponseEntity.ok().body(usersDto);
     }
