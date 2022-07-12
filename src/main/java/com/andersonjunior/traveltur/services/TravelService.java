@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.andersonjunior.traveltur.dtos.TravelDto;
 import com.andersonjunior.traveltur.models.Travel;
 import com.andersonjunior.traveltur.repositories.TravelRespository;
 import com.andersonjunior.traveltur.services.exceptions.DataIntegrityException;
@@ -61,12 +62,19 @@ public class TravelService {
         }
     }
 
+    public Travel fromDTO(TravelDto travelDto) {
+        return new Travel(travelDto.getId(), travelDto.getDestination(), travelDto.getVehicle(), travelDto.getDepartureDate(), travelDto.getDepartureTime(), travelDto.getReturnDate(), travelDto.getReturnTime(), travelDto.getCreatedBy(), travelDto.getCreatedAt(), travelDto.getUpdatedAt());
+    }
+
     private void updateData(Travel newTravel, Travel travel) {
         newTravel.setDestination(travel.getDestination());
         newTravel.setDepartureDate(travel.getDepartureDate());
         newTravel.setDepartureTime(travel.getDepartureTime());
         newTravel.setReturnDate(travel.getDepartureDate());
         newTravel.setReturnTime(travel.getReturnTime());
+        newTravel.setCreatedBy(travel.getCreatedBy());
+        newTravel.setCreatedAt(travel.getCreatedAt());
+        newTravel.setUpdateAt(travel.getUpdateAt());
     }
 
 }
